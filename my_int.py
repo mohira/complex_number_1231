@@ -11,8 +11,14 @@ class MyInt:
     def __str__(self) -> str:
         return str(self.value)
 
-    def __eq__(self, other: MyInt):
+    def __eq__(self, other: MyInt) -> bool:
         return isinstance(other, MyInt) and self.value == other.value
+
+    def __lt__(self, other: MyInt) -> bool:
+        return self.value < other.value
+
+    def is_negative(self) -> bool:
+        return self.value < 0
 
     def flip(self) -> MyInt:
         return MyInt(-1 * self.value)
