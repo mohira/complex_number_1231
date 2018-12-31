@@ -1,8 +1,8 @@
+from __future__ import annotations
+
 import unittest
-from dataclasses import dataclass
 
 
-@dataclass
 class 純虚数:
     def __init__(self, 虚部: int):
         if not isinstance(虚部, int) or 虚部 == 0:
@@ -17,6 +17,12 @@ class 純虚数:
             return '-i'
 
         return f'{self.虚部}i'
+
+    def __eq__(self, other: 純虚数):
+        return isinstance(other, 純虚数) and self.虚部 == other.虚部
+
+    def to_conjugate(self) -> 純虚数:
+        return 純虚数(-1 * self.虚部)
 
 
 class TestComplexNumber(unittest.TestCase):
@@ -44,7 +50,21 @@ class TestComplexNumber(unittest.TestCase):
             self.assertEqual(純虚数(2), 純虚数(2))
 
         with self.subTest('虚部 が 異なれば 同一でない'):
-            self.assertEqual(純虚数(-2), 純虚数(2))
+            self.assertNotEqual(純虚数(-2), 純虚数(2))
+
+    def test_共役な純虚数を取得できる(self):
+        with self.subTest("2i の 共役は -2i"):
+            self.assertEqual(純虚数(-2), 純虚数(2).to_conjugate())
+
+        with self.subTest("-2i の 共役は 2i"):
+            self.assertEqual(純虚数(2), 純虚数(-2).to_conjugate())
+
+        with self.subTest("i の 共役は -i"):
+            self.assertEqual(純虚数(-1), 純虚数(1).to_conjugate())
+
+        with self.subTest("-i の 共役は i"):
+            self.assertEqual(純虚数(1), 純虚数(-1).to_conjugate())
+
 
 
 if __name__ == "__main__":
