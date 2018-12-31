@@ -1,6 +1,8 @@
 import unittest
+from dataclasses import dataclass
 
 
+@dataclass
 class 純虚数:
     def __init__(self, 虚部: int):
         if not isinstance(虚部, int) or 虚部 == 0:
@@ -36,6 +38,13 @@ class TestComplexNumber(unittest.TestCase):
         with self.subTest("虚部 が 整数 であること"):
             with self.assertRaises(ValueError):
                 純虚数(1.5)
+
+    def test_純虚数の同一性を判定できる(self):
+        with self.subTest('虚部 が 等しければ 同一である'):
+            self.assertEqual(純虚数(2), 純虚数(2))
+
+        with self.subTest('虚部 が 異なれば 同一でない'):
+            self.assertEqual(純虚数(-2), 純虚数(2))
 
 
 if __name__ == "__main__":
